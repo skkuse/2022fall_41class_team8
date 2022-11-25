@@ -1,3 +1,4 @@
+##must "pip install pylama" first
 import os
 
 #os.system("pylama > output_file.txt")
