@@ -15,6 +15,7 @@ class problem(models.Model):
     title = models.CharField(max_length=200)
     contents = models.TextField()
     restrict = models.TextField()
+    skeleton = models.TextField()
     testcase1 = models.CharField(max_length=200)
     testcase2 = models.CharField(max_length=200)
 

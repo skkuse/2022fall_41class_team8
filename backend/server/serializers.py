@@ -18,6 +18,7 @@ class ProblemDetailSerializer(serializers.ModelSerializer):
             'title',
             'contents',
             'restrict',
+            'skeleton',
             'testcase1',
             'testcase2'
         )
