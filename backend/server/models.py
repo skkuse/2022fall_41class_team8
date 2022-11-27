@@ -16,8 +16,8 @@ class problem(models.Model):
     contents = models.TextField()
     restrict = models.TextField()
     skeleton = models.TextField()
-    testcase1 = models.CharField(max_length=200)
-    testcase2 = models.CharField(max_length=200)
+    testcase1 = models.TextField()
+    testcase2 = models.TextField()
 
     def __str__(self) : 
         return f"{self.chapter} {self.title}"

@@ -25,7 +25,7 @@ class ProblemDetailSerializer(serializers.ModelSerializer):
         model = problem
 
 class LogDetailSerializer(serializers.ModelSerializer):
-    ProblemInfo = ProblemDetailSerializer(required=True, read_only=False)
+    ProblemInfo = ProblemDetailSerializer(read_only=True)
     class Meta:
         model = user_log
         fields = (

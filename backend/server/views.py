@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from rest_framework import generics
+from django.http import JsonResponse
 
 from .models import user, problem, user_log
 from . import serializers
+from. import code_explanation, contents_recommend
 # Create your views here.
 
 class ListProblem(generics.ListCreateAPIView):
@@ -19,6 +21,18 @@ class LoadLog(generics.RetrieveUpdateDestroyAPIView):
 
     def get(self, request, *args, **kwargs):
         problem_id = self.kwargs['pk']
-        print("AAA",problem_id)
+        # print("AAA",problem_id)
         user_log.objects.get_or_create(ProblemInfo = problem(problem_id))
         return self.retrieve(request, *args, **kwargs)
+
+
+def scoring(request, ProblemId):
+    data = {}
+    file_name = f'{ProblemId}.py'
+    with open(file_name, 'w') as f:
+        f.write(user_log.objects.get(ProblemInfo_id=ProblemId).auto_saved)
+    data['explanation'] = code_explanation.get_explanation(file_name)
+    search_query = 'python' + problem.objects.get(id=ProblemId).title
+    data['recommendation'] = contents_recommend.GetRecommendation(search_query)
+    print(data)
+    return JsonResponse(data)
