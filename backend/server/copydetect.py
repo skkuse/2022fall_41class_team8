@@ -1,5 +1,5 @@
 #must pip install copydetect
-#from copydetect import CopyDetector, CodeFingerprint,compare_files
+from copydetect import CopyDetector, CodeFingerprint,compare_files
 
 def copyrate(filename):
   test_dir="./"
