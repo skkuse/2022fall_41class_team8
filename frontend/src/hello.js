@@ -1,21 +1,20 @@
-import React from 'react';
+import axios from 'axios';
 
-export default function Hello() {
-  return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '50vh',
-          fontSize: '20px',
-        }}>
-        <p>
-          Edit <code>pages/helloReact.js</code> and save to reload.
-        </p>
-        <button onClick={}>
-            button
-        </button>
-      </div>
-  );
+function Ax(){
+  let data = '';
+  axios.get('http://localhost:8000/server')
+  .then(function (x){
+    console.log(x)
+    data+=x;
+  }).catch((err)=>{
+    console.log(err)
+  })
+  return(
+    <div>
+      123
+      {data}
+    </div>
+  )
 }
+
+export default Ax;
