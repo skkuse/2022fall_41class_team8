@@ -105,6 +105,7 @@ border: 1px solid #000000;
 }
 
 .open{
+    cursor: pointer;
     position: absolute;
     left: 2%;
     right: 3.96%;
@@ -115,6 +116,7 @@ border: 1px solid #000000;
 }
 
 .clear{
+    cursor: pointer;
     position: absolute;
     left: 7%;
     right: 3.96%;
@@ -125,6 +127,7 @@ border: 1px solid #000000;
 }
 
 .copy{
+    cursor: pointer;
     position: absolute;
     left: 12%;
     right: 3.96%;
@@ -135,6 +138,7 @@ border: 1px solid #000000;
 }
 
 .download{
+    cursor: pointer;
     position: absolute;
     left: 17%;
     right: 3.96%;

@@ -5,9 +5,6 @@ import React,{useRef,useState} from 'react';
 import axios from 'axios';
 
 
-
-
-
 const SqlQueryEditor = (props) => {
 	return <Editor height='77vh' language='python' onMount={props.mount} value={props.value}/>
 }
@@ -17,9 +14,6 @@ function CodeEditor(){
     async function getUser() {
         try {
             const response = await axios.get('http://localhost:8000/server/1/');          
-            // const data = JSON.stringify(response,['data','auto_saved']);
-            // console.log(response.data)
-            // console.log(data)
             setCodeText(response.data.auto_saved)
         } catch (e) {
           console.error(e);
@@ -27,16 +21,23 @@ function CodeEditor(){
     }
 
     const editorRef = useRef(null);
-
     function handleEditorDidMount(editor, monaco) {
         editorRef.current = editor; 
       }
-      
+    
     function showValue() {
         alert(editorRef.current.getValue());
     } 
-
     const text = <SqlQueryEditor mount={handleEditorDidMount} value={codeText}/>
+
+    const copy = async (text) => {
+        try {
+          await navigator.clipboard.writeText(text);
+          alert('복사 성공!');
+        } catch (error) {
+          alert('복사 실패!');
+        }
+      };
 
     return(
         <div className="section_editor">
@@ -45,8 +46,11 @@ function CodeEditor(){
                 {text}
             </div>
             <div className='open'><FolderFill/></div>
-            <div className='clear'><ArrowClockwise/></div>
-            <div className='copy'><Files/></div>
+            <div className='clear' onClick={() => {
+                setCodeText('')
+                }}><ArrowClockwise/>
+            </div>
+            <div className='copy' onClick={() => copy(codeText)}><Files/></div>
             <div className='download'><Download/></div>
             <div className='execute' onClick={showValue}>실행</div>
             <div className='scoring' onClick={getUser}>채점</div>
