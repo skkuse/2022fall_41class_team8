@@ -1,22 +1,30 @@
 import './editor.css'
 import Editor from '@monaco-editor/react';
 import {Download,FolderFill,Files,ArrowClockwise} from 'react-bootstrap-icons'
-import React,{useRef} from 'react';
+import React,{useRef,useState} from 'react';
+import axios from 'axios';
 
 
 
-// const RunExecute = () => {
-//     // alert(document.getElementById('monaco'))
-//     console.log(1)
-// }
+
 
 const SqlQueryEditor = (props) => {
-
-
-	return <Editor height='77vh' language='python' onMount={props.mount}/>
+	return <Editor height='77vh' language='python' onMount={props.mount} value={props.value}/>
 }
 
 function CodeEditor(){
+    const [codeText,setCodeText] = useState('//type your code')
+    async function getUser() {
+        try {
+            const response = await axios.get('http://localhost:8000/server/1/');          
+            // const data = JSON.stringify(response,['data','auto_saved']);
+            // console.log(response.data)
+            // console.log(data)
+            setCodeText(response.data.auto_saved)
+        } catch (e) {
+          console.error(e);
+        }
+    }
 
     const editorRef = useRef(null);
 
@@ -26,10 +34,10 @@ function CodeEditor(){
       
     function showValue() {
         alert(editorRef.current.getValue());
-    }
+    } 
 
-    const text = <SqlQueryEditor mount={handleEditorDidMount}/>
-    
+    const text = <SqlQueryEditor mount={handleEditorDidMount} value={codeText}/>
+
     return(
         <div className="section_editor">
             <div className='editor_head'>코드 입력</div>
@@ -41,7 +49,7 @@ function CodeEditor(){
             <div className='copy'><Files/></div>
             <div className='download'><Download/></div>
             <div className='execute' onClick={showValue}>실행</div>
-            <div className='scoring'>채점</div>
+            <div className='scoring' onClick={getUser}>채점</div>
             <div className='submit'>제출</div>
         </div>
     )
