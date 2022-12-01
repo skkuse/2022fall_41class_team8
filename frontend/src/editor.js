@@ -10,21 +10,30 @@ const SqlQueryEditor = (props) => {
 }
 
 function CodeEditor(){
-    const [codeText,setCodeText] = useState()
-    const [userData, setUserData] = useState()
+    const [codeText, setCodeText] = useState()
+    const userData = useRef()
+    const AUTO_SAVE_INTERVAL = 30000
     useEffect(()=>{
       axios
         .get('http://localhost:8000/server/1/')
         .then((response) => {
-          setUserData(response.data);
-          setCodeText(response.data.ProblemInfo.skeleton);
-        })   
+          userData.current = response.data;
+          if(response.data.status === "Not solved")
+            setCodeText(response.data.ProblemInfo.skeleton);
+          else
+            setCodeText(response.data.auto_saved);
+        })
+      const interval = setInterval(()=> {
+        Save(0);
+      }, AUTO_SAVE_INTERVAL);
+      
+      return () => clearInterval(interval);
       }, []);
 
+    
     async function getUser() {
         try {
-            //const response = await axios.get('http://localhost:8000/server/1/');          
-            setCodeText(userData.auto_saved)
+            setCodeText(userData.current.auto_saved)
         } catch (e) {
           console.error(e);
         }
@@ -37,27 +46,27 @@ function CodeEditor(){
     
     function showValue() {
         alert(editorRef.current.getValue());
-        alert(userData.auto_saved);
+        alert(userData.current.auto_saved);
     } 
 
     async function Save(slot){
       if (slot === 1)
-        setUserData({...userData, save1: editorRef.current.getValue()})
+        userData.current = {...userData.current, save1: editorRef.current.getValue()}
       else if (slot === 2)
-        setUserData({...userData, save1: editorRef.current.getValue()})
+        userData.current = {...userData.current, save2: editorRef.current.getValue()}
       else if (slot === 3)
-        setUserData({...userData, save1: editorRef.current.getValue()})
+        userData.current = {...userData.current, save3: editorRef.current.getValue()}
       else
-        setUserData({...userData, auto_saved: editorRef.current.getValue()})
+        userData.current = {...userData.current, auto_saved: editorRef.current.getValue()}
       try {
-      await axios.put('http://localhost:8000/server/1/', userData);
-      } catch(e){
-        console.error(e);
+        await axios.put('http://localhost:8000/server/1/', userData.current);
+        } catch(e){
+          console.error(e);
       }
     }
 
     async function getScore() {
-      Save(0)
+      Save(0);
       try {
           const response = await axios.get('http://localhost:8000/server/1/scoring');          
           alert(response.data.explanation)
@@ -76,6 +85,14 @@ function CodeEditor(){
           alert('복사 실패!');
         }
       };
+    
+      const resetCode = () => {
+        setCodeText((prev) => "")
+        alert(editorRef.current.getValue())
+        alert(codeText)
+        setCodeText(() => userData.current.ProblemInfo.skeleton)
+        alert(codeText)
+      }
 
     return(
         <div className="section_editor">
@@ -84,10 +101,7 @@ function CodeEditor(){
                 {text}
             </div>
             <div className='open'><FolderFill/></div>
-            <div className='clear' onClick={() => {
-                setCodeText(userData.ProblemInfo.skeleton)
-                }}><ArrowClockwise/>
-            </div>
+            <div className='clear' onClick={resetCode}><ArrowClockwise/></div>
             <div className='copy' onClick={() => copy(codeText)}><Files/></div>
             <div className='download'><Download/></div>
             <div className='execute' onClick={showValue}>실행</div>

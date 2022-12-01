@@ -4,5 +4,6 @@ from . import views
 urlpatterns = [
     path('', views.ListProblem.as_view()),
     path('<str:pk>/', views.LoadLog.as_view()),
+    path('<str:ProblemId>/execute', views.executing),
     path('<str:ProblemId>/scoring', views.scoring)
 ]

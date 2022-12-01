@@ -26,11 +26,11 @@ class user_log(models.Model):
     # log_id = models.AutoField(primary_key=True)
     # user_id = models.ForeignKey(user,on_delete=models.CASCADE)
     ProblemInfo = models.ForeignKey(problem,on_delete=models.CASCADE, primary_key=True)
-    auto_saved = models.TextField()
-    save1 = models.TextField()
-    save2 = models.TextField()
-    save3 = models.TextField()
-    status = models.CharField(max_length=1)
+    auto_saved = models.TextField(default="A")
+    save1 = models.TextField(default="1")
+    save2 = models.TextField(default="2")
+    save3 = models.TextField(default="3")
+    status = models.TextField(default="Not solved")
     
-    def __str__(self) :
-        return f"{self.ProblemInfo}"
+    def __int__(self) :
+        return f"{self.ProblemInfo.id}"
