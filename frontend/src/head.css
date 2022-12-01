@@ -19,8 +19,8 @@
     position: absolute;
     width: 30%;
     height: 100%;
-    left: calc(50% - 373px/2 - 21.5px);
-    top: calc(50% - 42px/2 - 0.5px);
+    left: 35%;
+    /* top: calc(50% - 42px/2 - 0.5px); */
 
     background: #D9D9D9;
     border-radius: 16px;
@@ -31,7 +31,8 @@
 .head_title_txt{
 position: absolute;
 width: 20%;
-left: 39%;
+left: 40%;
+top : 15%;
 background:#D9D9D9;
 font-family: 'Inter';
 font-style: normal;
@@ -41,24 +42,22 @@ text-align: center;
 padding-bottom: 2%;
 }
 
-
-
 .arrow_right{
     position: absolute;
     width: 2em;
     height: 2em;
-    left: 61%;
-    top: 10%;
+    left: 63%;
+    top: 20%;
     font-size: 1.5em;
     vertical-align: middle;
 }
 
 .arrow_left{
     position: absolute;
-    width: 1em;
-    height: 1em;
-    left: 35%;
-    top: 10%;
+    width: 2em;
+    height: 2em;
+    left: 36%;
+    top: 20%;
     font-size: 1.5em;
     align-items: center;
 }

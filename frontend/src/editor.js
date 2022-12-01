@@ -93,6 +93,26 @@ function CodeEditor(){
         setCodeText(() => userData.current.ProblemInfo.skeleton)
         alert(codeText)
       }
+    
+    
+      const saveInSlot = async (slot) => {
+        var saved_string = "";
+        if (slot === 1){
+          saved_string = userData.current.save1;
+        } else if (slot === 2){
+          saved_string = userData.current.save2;
+        } else if (slot === 3){
+          saved_string = userData.current.save3;
+        }
+        if (saved_string !== String(slot)){
+          if (window.confirm(`${slot} 번에 저장한 코드가 있습니다.\n 덮어쓰시겠습니까?`))
+            Save(slot)
+        }
+        else
+          Save(slot)
+        alert("저장 성공!")
+      }
+
 
     return(
         <div className="section_editor">
@@ -103,19 +123,18 @@ function CodeEditor(){
 
             <div className = "save_row">
               <div className = "save_header">Saves</div>
-              <div className = "save_slot"><Dice1/></div>
-              <div className = "save_slot"><Dice2/></div>
-              <div className = "save_slot"><Dice3/></div>
-             
-     
+              <div className = "save_slot" onClick={() =>saveInSlot(1)}><Dice1/></div>
+              <div className = "save_slot" onClick={() =>saveInSlot(2)}><Dice2/></div>
+              <div className = "save_slot" onClick={() =>saveInSlot(3)}><Dice3/></div>
             </div>
+
             <div className='open'><FolderFill/></div>
             <div className='clear' onClick={resetCode}><ArrowClockwise/></div>
             <div className='copy' onClick={() => copy(codeText)}><Files/></div>
             <div className='download'><Download/></div>
-            <div className='execute' onClick={showValue}>실행</div>
-            <div className='scoring' onClick={getUser}>채점</div>
-            <div className='submit' onClick={getScore}>제출</div>
+            <button className='execute' onClick={showValue}>실행</button>
+            <button className='scoring' onClick={getUser}>채점</button>
+            <button className='submit' onClick={getScore}>제출</button>
         </div>
   
     )

@@ -31,6 +31,7 @@ class user_log(models.Model):
     save2 = models.TextField(default="2")
     save3 = models.TextField(default="3")
     status = models.TextField(default="Not solved")
+
     
     def __int__(self) :
         return f"{self.ProblemInfo.id}"

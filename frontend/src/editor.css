@@ -152,6 +152,7 @@ border: 1px solid #000000;
     position:absolute;
     display:flex;
     left: 72%;
+    top: 1%;
     align-items: center;
 }
 
@@ -159,6 +160,8 @@ border: 1px solid #000000;
     font-size: 1.7em;
     margin-left: 6%;
     color: white;
+    background-color: #2D3242;
+    border-color: #2D3242;
 }
 
 .save_header{
