@@ -1,6 +1,6 @@
 import './editor.css'
 import Editor from '@monaco-editor/react';
-import {Download,FolderFill,Files,ArrowClockwise} from 'react-bootstrap-icons'
+import {Download,FolderFill,Files,ArrowClockwise,Dice1,Dice2,Dice3} from 'react-bootstrap-icons'
 import React,{useRef,useState} from 'react';
 import axios from 'axios';
 
@@ -45,6 +45,15 @@ function CodeEditor(){
             <div className='editor_code'>
                 {text}
             </div>
+
+            <div className = "save_row">
+              <div className = "save_header">Saves</div>
+              <div className = "save_slot"><Dice1/></div>
+              <div className = "save_slot"><Dice2/></div>
+              <div className = "save_slot"><Dice3/></div>
+             
+     
+            </div>
             <div className='open'><FolderFill/></div>
             <div className='clear' onClick={() => {
                 setCodeText('')
@@ -56,6 +65,7 @@ function CodeEditor(){
             <div className='scoring' onClick={getUser}>채점</div>
             <div className='submit'>제출</div>
         </div>
+  
     )
 }
 
