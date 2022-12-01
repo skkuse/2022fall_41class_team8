@@ -1,7 +1,7 @@
 import './editor.css'
 import Editor from '@monaco-editor/react';
-import {Download,FolderFill,Files,ArrowClockwise} from 'react-bootstrap-icons'
 import React,{useEffect, useRef,useState,useCallback} from 'react';
+import {Download,FolderFill,Files,ArrowClockwise,Dice1,Dice2,Dice3,SdCard} from 'react-bootstrap-icons'
 import axios from 'axios';
 
 
@@ -126,11 +126,20 @@ function CodeEditor(){
 
     return(
         <div className="section_editor">
-            <div className='editor_head'>코드 입력</div>
+            <div className='editor_head'>
+                코드 입력                
+            </div>
             <div className='editor_code'>
                 {text}
             </div>
             <div className='open'><Upload icon={<FolderFill/>}/></div>
+            <div className = "save_row">
+                <div className ="save_header"><SdCard/></div>
+                <div className ="save_slot" id='1'><Dice1/></div>
+                <div className ="save_slot" id='2'><Dice2/></div>
+                <div className ="save_slot" id='3'><Dice3/></div>
+            </div>
+            
             <div className='clear' onClick={() => {
                 setCodeText(userData.ProblemInfo.skeleton)
                 }}><ArrowClockwise/>
@@ -143,6 +152,7 @@ function CodeEditor(){
             <div className='scoring' onClick={getUser}>채점</div>
             <div className='submit' onClick={getScore}>제출</div>
         </div>
+  
     )
 }
 

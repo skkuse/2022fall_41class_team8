@@ -35,7 +35,7 @@ border: 1px solid #000000;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 2em;
     line-height: 29px;
     display: flex;
     align-items: center;
@@ -147,3 +147,26 @@ border: 1px solid #000000;
     font-size: 30px;
     color: #FFFFFF;
 }
+
+.save_row{
+    position:absolute;
+    display:flex;
+    left: 65%;
+    align-items: center;
+}
+
+.save_slot{
+    font-size: 1.7em;
+    margin-left: 15%;
+    color: white;
+}
+
+.save_header{
+    color:white;
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+
+
+

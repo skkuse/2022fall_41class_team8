@@ -1,6 +1,6 @@
 import './head.css'
 import 'bootstrap/dist/css/bootstrap.css';
-import {CaretRightFill,CaretLeftFill} from 'react-bootstrap-icons'
+import {CaretRightFill,CaretLeftFill,CaretLeft,CaretRight} from 'react-bootstrap-icons'
 function Head(){
     return(
         <div className="section_head">
