@@ -3,7 +3,7 @@ from googleapiclient.errors import HttpError
 from oauth2client.tools import argparser
 import json
 
-with open("server/api_keys.json", 'r') as f:
+with open("api_keys.json", 'r') as f:
   api_keys = json.load(f)
 API_KEY = api_keys["google"]
 
