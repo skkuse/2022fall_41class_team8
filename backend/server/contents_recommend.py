@@ -1,10 +1,14 @@
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from oauth2client.tools import argparser
+import json
 
+with open("server/api_keys.json", 'r') as f:
+  api_keys = json.load(f)
+API_KEY = api_keys["google"]
 
 def VideoRecommendation(query):
-    with build('youtube', 'v3', developerKey="API_KEY") as youtube:
+    with build('youtube', 'v3', developerKey=API_KEY) as youtube:
         search_result = youtube.search().list(q=query, order = "relevance", part = "snippet", maxResults=10).execute()
     recommends = []
     while len(recommends) < 2:
@@ -14,7 +18,7 @@ def VideoRecommendation(query):
     return recommends
 
 def ConceptRecommendation(query):
-    with build('customsearch', 'v1', developerKey="API_KEY") as custom_engine:
+    with build('customsearch', 'v1', developerKey=API_KEY) as custom_engine:
         search_result = custom_engine.cse().list(q=query, cx = "058d40f7775d94c0a", num=3).execute()
     recommends = []
     for item in search_result['items']:

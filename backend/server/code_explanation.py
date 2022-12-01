@@ -1,8 +1,10 @@
-import os
 import openai
-import re
+import json
 
-openai.api_key = "API_KEY"
+with open("server/api_keys.json", 'r') as f:
+  api_keys = json.load(f)
+openai.api_key = api_keys["open_AI"]
+
 
 code_tail = " \n\n\"\"\" Explanation of what the code does"
 
@@ -18,5 +20,7 @@ def get_explanation(file_name):
     top_p=1.0,
     frequency_penalty=0.0,
     presence_penalty=0.0,
+    stop=["\"\"\""]
   )
+  print(response["choices"][0].text)
   return response["choices"][0].text

@@ -1,0 +1,9 @@
+openai
+google-api-python-client
+oauth2client
+django
+djangorestframework
+multimetric
+memory_profiler
+copydetect
+pylama
