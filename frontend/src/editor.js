@@ -10,13 +10,14 @@ const SqlQueryEditor = (props) => {
 }
 
 function CodeEditor(){
-    const [codeText,setCodeText] = useState('//type your code')
+    const [codeText,setCodeText] = useState()
     const [userData, setUserData] = useState()
     useEffect(()=>{
       axios
         .get('http://localhost:8000/server/1/')
         .then((response) => {
           setUserData(response.data);
+          setCodeText(response.data.ProblemInfo.skeleton);
         })   
       }, []);
 
