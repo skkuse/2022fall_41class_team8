@@ -2,10 +2,8 @@ import os
 import openai
 import re
 
-
 with open('key',"r") as f:
   openai.api_key = f.readline()
-  print(openai.api_key)
 
 
 code_tail = " \n\n\"\"\" Explanation of what the code does"
