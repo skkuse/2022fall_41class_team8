@@ -151,13 +151,13 @@ border: 1px solid #000000;
 .save_row{
     position:absolute;
     display:flex;
-    left: 65%;
+    left: 72%;
     align-items: center;
 }
 
 .save_slot{
     font-size: 1.7em;
-    margin-left: 15%;
+    margin-left: 6%;
     color: white;
 }
 
