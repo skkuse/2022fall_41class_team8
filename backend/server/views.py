@@ -32,12 +32,12 @@ def scoring(request, ProblemId):
     with open(file_name, 'w') as f:
         f.write(user_log.objects.get(ProblemInfo_id=ProblemId).auto_saved)
     #data['plagiarism']=copydetect.copyrate()
-    data['efficiency']={}
-    data['efficiency']['count of lines']=efficiency.count_line(file_name)
-    data['efficiency']['halstead']=efficiency.halstead(file_name)
-    data['efficiency']['control_flow']=efficiency.control_flow(file_name)
-    data['efficiency']['data_flow']=efficiency.data_flow(file_name)
-    data['readability']=readable.readability(file_name)
+    # data['efficiency']={}
+    # data['efficiency']['count of lines']=efficiency.count_line(file_name)
+    # data['efficiency']['halstead']=efficiency.halstead(file_name)
+    # data['efficiency']['control_flow']=efficiency.control_flow(file_name)
+    # data['efficiency']['data_flow']=efficiency.data_flow(file_name)
+    # data['readability']=readable.readability(file_name)
        
     data['explanation'] = code_explanation.get_explanation(file_name)
     search_query = 'python' + problem.objects.get(id=ProblemId).title

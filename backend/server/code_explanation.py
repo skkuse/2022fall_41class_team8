@@ -2,7 +2,7 @@ import os
 import openai
 import re
 
-openai.api_key = "API_KEY"
+openai.api_key = "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"
 
 code_tail = " \n\n\"\"\" Explanation of what the code does"
 
@@ -18,5 +18,7 @@ def get_explanation(file_name):
     top_p=1.0,
     frequency_penalty=0.0,
     presence_penalty=0.0,
+    stop=["\"\"\""]
   )
+  print(response["choices"][0].text)
   return response["choices"][0].text
