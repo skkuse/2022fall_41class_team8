@@ -9,6 +9,8 @@ const SqlQueryEditor = (props) => {
 	return <Editor height='77vh' language='python' onMount={props.mount} value={props.value}/>
 }
 
+
+
 function CodeEditor(){
     const [codeText,setCodeText] = useState()
     const [userData, setUserData] = useState()
@@ -77,6 +79,37 @@ function CodeEditor(){
         }
       };
 
+      function processFile(file) {
+        var reader = new FileReader();
+        reader.onload = function () {
+            setCodeText(reader.result)
+        };
+        reader.readAsText(file, /* optional */ "euc-kr");
+    }
+
+    const Upload = () => {
+        const fileInput = React.useRef(null);
+        
+        const handleButtonClick = () => {
+          fileInput.current.click();
+        };
+        
+        const handleChange = e => {
+        //   console.log(e.target.files[0]);
+          processFile(e.target.files[0])
+        };
+        
+        return (
+          <React.Fragment>
+            <button onClick={handleButtonClick}>파일 업로드</button>
+            <input type="file"
+                   ref={fileInput}
+                   onChange={handleChange}
+                   style={{ display: "none" }} />
+          </React.Fragment>
+        );
+      }
+
     return(
         <div className="section_editor">
             <div className='editor_head'>코드 입력</div>
@@ -89,7 +122,7 @@ function CodeEditor(){
                 }}><ArrowClockwise/>
             </div>
             <div className='copy' onClick={() => copy(codeText)}><Files/></div>
-            <div className='download'><Download/></div>
+            <div className='download'><Download/><Upload/></div>
             <div className='execute' onClick={showValue}>실행</div>
             <div className='scoring' onClick={getUser}>채점</div>
             <div className='submit' onClick={getScore}>제출</div>
