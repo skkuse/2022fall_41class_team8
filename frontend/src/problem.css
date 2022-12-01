@@ -27,7 +27,6 @@
     color: #FFFFFF;
     border: 1px solid #000000;
 }
-
 .problem_line{
     position: absolute;
     left: 0%;
@@ -36,4 +35,11 @@
     bottom: 85.56%;
     
     border: 1px solid #000000;
+}
+
+.problem_desc{
+    position: absolute;
+    top: 15vh;
+    text-indent: 20px;
+    color: white;
 }
