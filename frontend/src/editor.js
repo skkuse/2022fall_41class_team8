@@ -14,6 +14,7 @@ const SqlQueryEditor = (props) => {
 function CodeEditor(){
     const [codeText,setCodeText] = useState()
     const [userData, setUserData] = useState()
+    const [whichSave, setWhichSave] = useState(1)
     useEffect(()=>{
       axios
         .get('http://localhost:8000/server/1/')
@@ -46,13 +47,13 @@ function CodeEditor(){
       if (slot === 1)
         setUserData({...userData, save1: editorRef.current.getValue()})
       else if (slot === 2)
-        setUserData({...userData, save1: editorRef.current.getValue()})
+        setUserData({...userData, save2: editorRef.current.getValue()})
       else if (slot === 3)
-        setUserData({...userData, save1: editorRef.current.getValue()})
+        setUserData({...userData, save3: editorRef.current.getValue()})
       else
         setUserData({...userData, auto_saved: editorRef.current.getValue()})
       try {
-      await axios.put('http://localhost:8000/server/1/', userData);
+        await axios.put('http://localhost:8000/server/1/', userData);
       } catch(e){
         console.error(e);
       }
@@ -101,7 +102,6 @@ function CodeEditor(){
         
         return (
           <React.Fragment>
-            {/* <button onClick={handleButtonClick}>파일 업로드</button> */}
             <div onClick={handleButtonClick}>{props.icon}</div>
             <input type="file"
                    ref={fileInput}
@@ -129,25 +129,24 @@ function CodeEditor(){
             <div className='editor_head'>
                 코드 입력                
             </div>
+            <div className = "save_row">
+                <div className ="save_header" onClick={() => Save(whichSave)}><SdCard/></div>
+                <div className ="save_slot" id='1' onClick={() => setWhichSave(1)}><Dice1/></div>
+                <div className ="save_slot" id='2' onClick={() => setWhichSave(2)}><Dice2/></div>
+                <div className ="save_slot" id='3' onClick={() => setWhichSave(3)}><Dice3/></div>
+            </div>
             <div className='editor_code'>
                 {text}
             </div>
             <div className='open'><Upload icon={<FolderFill/>}/></div>
-            <div className = "save_row">
-                <div className ="save_header"><SdCard/></div>
-                <div className ="save_slot" id='1'><Dice1/></div>
-                <div className ="save_slot" id='2'><Dice2/></div>
-                <div className ="save_slot" id='3'><Dice3/></div>
-            </div>
-            
             <div className='clear' onClick={() => {
                 setCodeText(userData.ProblemInfo.skeleton)
                 }}><ArrowClockwise/>
             </div>
             <div className='copy' onClick={() => copy(codeText)}><Files/></div>
-            <div className='download' onClick={()=>{
-                download('down_1.txt',codeText)
-            }}><Download/></div>
+                <div className='download' onClick={()=>{
+                    download('down_1.txt',codeText)
+                }}><Download/></div>
             <div className='execute' onClick={showValue}>실행</div>
             <div className='scoring' onClick={getUser}>채점</div>
             <div className='submit' onClick={getScore}>제출</div>
