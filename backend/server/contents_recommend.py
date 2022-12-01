@@ -1,8 +1,11 @@
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from oauth2client.tools import argparser
+import json
 
-API_KEY = "AIzaSyAZABN0yDzeEEWDh46_YP6MwGblcUwF_Ik"
+with open("server/api_keys.json", 'r') as f:
+  api_keys = json.load(f)
+API_KEY = api_keys["google"]
 
 def VideoRecommendation(query):
     with build('youtube', 'v3', developerKey=API_KEY) as youtube:

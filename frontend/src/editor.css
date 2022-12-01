@@ -162,8 +162,10 @@
 
 .save_slot{
     font-size: 1.7em;
-    margin-left: 15%;
+    margin-left: 6%;
     color: white;
+    background-color: #2D3242;
+    border-color: #2D3242;
 }
 
 .save_slot:hover{

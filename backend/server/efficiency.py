@@ -1,9 +1,6 @@
 import os
 import json
 
-
-
-
 def count_line(filename):
   answer_file=open(filename,'r')
   #-2 means definition of function and return of function in skeleton code
@@ -13,7 +10,7 @@ def count_line(filename):
 
 def halstead(filename):
   #print(output_json)
-  query="multimetric "+filename
+  query="python3 -m multimetric "+filename
   #stream=os.popen("multimetric answer.py")
   stream=os.popen(query)
   output=stream.read()
@@ -31,7 +28,7 @@ def halstead(filename):
 def control_flow(filename):
   #I think cyclematic_complexity is metric for data flow complexity
   #smaller is good
-  query="multimetric "+filename
+  query="python3 -m multimetric "+filename
   #stream=os.popen("multimetric answer.py")
   stream=os.popen(query)
   output=stream.read()
@@ -60,9 +57,8 @@ def data_flow(filename):
 	f.write("\n@profile\n")
 
 	with open(filename,"r") as answer:
-		lines=answer.readlines()
-		for line in lines:
-			f.write(line)
+		lines=answer.read()
+		f.write(lines)
 		f.write(last_line)
 
 	f.close()

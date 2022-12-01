@@ -1,9 +1,9 @@
-import os
 import openai
-import re
+import json
 
-with open('key',"r") as f:
-  openai.api_key = f.readline()
+with open("server/api_keys.json", 'r') as f:
+  api_keys = json.load(f)
+openai.api_key = api_keys["open_AI"]
 
 
 code_tail = " \n\n\"\"\" Explanation of what the code does"

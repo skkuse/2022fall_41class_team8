@@ -11,22 +11,30 @@ const SqlQueryEditor = (props) => {
 
 function CodeEditor(){
     const [codeText,setCodeText] = useState()
-    const [userData, setUserData] = useState()
     const [whichSave, setWhichSave] = useState(1)
-    const timeout=500;
+    const userData = useRef()
+    const AUTO_SAVE_INTERVAL = 30000
     useEffect(()=>{
       axios
         .get('http://localhost:8000/server/1/')
         .then((response) => {
-          setUserData(response.data);
-          setCodeText(response.data.ProblemInfo.skeleton);
-        })   
+          userData.current = response.data;
+          if(response.data.status === "Not solved")
+            setCodeText(response.data.ProblemInfo.skeleton);
+          else
+            setCodeText(response.data.auto_saved);
+        })
+      const interval = setInterval(()=> {
+        Save(0);
+      }, AUTO_SAVE_INTERVAL);
+      
+      return () => clearInterval(interval);
       }, []);
 
+    
     async function getUser() {
         try {
-            //const response = await axios.get('http://localhost:8000/server/1/');          
-            setCodeText(userData.auto_saved)
+            setCodeText(userData.current.auto_saved)
         } catch (e) {
           console.error(e);
         }
@@ -39,34 +47,27 @@ function CodeEditor(){
     
     function showValue() {
         alert(editorRef.current.getValue());
-        alert(userData.auto_saved);
+        alert(userData.current.auto_saved);
     } 
 
     async function Save(slot){
-        setWhichSave(whichSave+1)
-        if(whichSave>3){
-            alert('저장 횟수 초과!')
-            return;
-        }
-        else if(slot === 1){
-            setUserData({...userData, save1: editorRef.current.getValue()})
-        }
-        else if (slot === 2)
-            setUserData({...userData, save2: editorRef.current.getValue()})
-        else if (slot === 3)
-            setUserData({...userData, save3: editorRef.current.getValue()})
-        else{
-            setUserData({...userData, auto_saved: editorRef.current.getValue()})
-        }
-        try {
-        await axios.put('http://localhost:8000/server/1/', userData);
+      if (slot === 1)
+        userData.current = {...userData.current, save1: editorRef.current.getValue()}
+      else if (slot === 2)
+        userData.current = {...userData.current, save2: editorRef.current.getValue()}
+      else if (slot === 3)
+        userData.current = {...userData.current, save3: editorRef.current.getValue()}
+      else
+        userData.current = {...userData.current, auto_saved: editorRef.current.getValue()}
+      try {
+        await axios.put('http://localhost:8000/server/1/', userData.current);
         } catch(e){
-        console.error(e);
-        }
+          console.error(e);
+      }
     }
 
     async function getScore() {
-      Save(0)
+      Save(0);
       try {
           const response = await axios.get('http://localhost:8000/server/1/scoring');          
           alert(response.data.explanation)
@@ -90,6 +91,34 @@ function CodeEditor(){
           alert('복사 실패!');
         }
       };
+    
+      const resetCode = () => {
+        setCodeText((prev) => "")
+        alert(editorRef.current.getValue())
+        alert(codeText)
+        setCodeText(() => userData.current.ProblemInfo.skeleton)
+        alert(codeText)
+      }
+    
+    
+      const saveInSlot = async (slot) => {
+        var saved_string = "";
+        if (slot === 1){
+          saved_string = userData.current.save1;
+        } else if (slot === 2){
+          saved_string = userData.current.save2;
+        } else if (slot === 3){
+          saved_string = userData.current.save3;
+        }
+        if (saved_string !== String(slot)){
+          if (window.confirm(`${slot} 번에 저장한 코드가 있습니다.\n 덮어쓰시겠습니까?`))
+            Save(slot)
+        }
+        else
+          Save(slot)
+        alert("저장 성공!")
+      }
+
 
     function processFile(file) {
         var reader = new FileReader();
