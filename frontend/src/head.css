@@ -13,50 +13,24 @@
     border-width: 1px 1px 0px 1px;
     border-style: solid;
     border-color: #000000;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .head_title{
     position: absolute;
-    width: 373px;
+    width: auto;
     height: 42px;
-    left: calc(50% - 373px/2 - 21.5px);
-    top: calc(50% - 42px/2 - 0.5px);
+
+    /* left: calc(50% - 373px/2 - 21.5px);
+    top: calc(50% - 42px/2 - 0.5px); */
 
     background: #D9D9D9;
     border-radius: 16px;
-}
 
-.head_title_txt{
-    position: absolute;
-width: 125px;
-height: 19px;
-left: 876px;
-top: 27px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-/* display: flex; */
-align-items: center;
-text-align: center;
-}
-
-.arrow_right{
-    position: absolute;
-    width: 37px;
-    height: 37px;
-    left: 1088px;
-    top: 18px;
-    font-size: 20px;
-}
-
-.arrow_left{
-    position: absolute;
-    width: 37px;
-    height: 37px;
-    left: 762px;
-    top: 18px;
-    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

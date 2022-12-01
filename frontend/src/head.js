@@ -4,10 +4,7 @@ import {CaretRightFill,CaretLeftFill} from 'react-bootstrap-icons'
 function Head(){
     return(
         <div className="section_head">
-            <div className='head_title'></div>
-            <div className='head_title_txt'>week1: 문제 제목</div>
-            <div className='arrow_left'><CaretLeftFill/></div>
-            <div className='arrow_right'><CaretRightFill/></div>
+            <div className='head_title'><CaretLeftFill/>week1: 문제 제목<CaretRightFill/></div>
         </div>
     )
 }
