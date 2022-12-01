@@ -2,7 +2,11 @@ import os
 import openai
 import re
 
-openai.api_key = "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"
+
+with open('key',"r") as f:
+  openai.api_key = f.readline()
+  print(openai.api_key)
+
 
 code_tail = " \n\n\"\"\" Explanation of what the code does"
 
