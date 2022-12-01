@@ -9,12 +9,11 @@ const SqlQueryEditor = (props) => {
 	return <Editor height='77vh' language='python' onMount={props.mount} value={props.value}/>
 }
 
-
-
 function CodeEditor(){
     const [codeText,setCodeText] = useState()
     const [userData, setUserData] = useState()
     const [whichSave, setWhichSave] = useState(1)
+    const timeout=500;
     useEffect(()=>{
       axios
         .get('http://localhost:8000/server/1/')
@@ -44,19 +43,26 @@ function CodeEditor(){
     } 
 
     async function Save(slot){
-      if (slot === 1)
-        setUserData({...userData, save1: editorRef.current.getValue()})
-      else if (slot === 2)
-        setUserData({...userData, save2: editorRef.current.getValue()})
-      else if (slot === 3)
-        setUserData({...userData, save3: editorRef.current.getValue()})
-      else
-        setUserData({...userData, auto_saved: editorRef.current.getValue()})
-      try {
+        setWhichSave(whichSave+1)
+        if(whichSave>3){
+            alert('저장 횟수 초과!')
+            return;
+        }
+        else if(slot === 1){
+            setUserData({...userData, save1: editorRef.current.getValue()})
+        }
+        else if (slot === 2)
+            setUserData({...userData, save2: editorRef.current.getValue()})
+        else if (slot === 3)
+            setUserData({...userData, save3: editorRef.current.getValue()})
+        else{
+            setUserData({...userData, auto_saved: editorRef.current.getValue()})
+        }
+        try {
         await axios.put('http://localhost:8000/server/1/', userData);
-      } catch(e){
+        } catch(e){
         console.error(e);
-      }
+        }
     }
 
     async function getScore() {
@@ -69,7 +75,12 @@ function CodeEditor(){
       }
     }
 
-    const text = <SqlQueryEditor mount={handleEditorDidMount} value={codeText}/>
+    const autoSave = (event) => {
+        console.log(event.target.value)
+    }
+
+    window.editor.getModel().onDidChangeContent(autoSave);
+    const text = <SqlQueryEditor mount={handleEditorDidMount} value={codeText} onDidChangeContent={autoSave} />
 
     const copy = async (text) => {
         try {
@@ -80,12 +91,12 @@ function CodeEditor(){
         }
       };
 
-      function processFile(file) {
+    function processFile(file) {
         var reader = new FileReader();
         reader.onload = function () {
             setCodeText(reader.result)
         };
-        reader.readAsText(file, /* optional */ "euc-kr");
+        reader.readAsText(file, /* optional */ 'utf-8');
     }
 
     const Upload = (props) => {
@@ -96,7 +107,6 @@ function CodeEditor(){
         };
         
         const handleChange = e => {
-        //   console.log(e.target.files[0]);
           processFile(e.target.files[0])
         };
         
@@ -131,8 +141,8 @@ function CodeEditor(){
             </div>
             <div className = "save_row">
                 <div className ="save_header" onClick={() => Save(whichSave)}><SdCard/></div>
-                <div className ="save_slot" id='1' onClick={() => setWhichSave(1)}><Dice1/></div>
-                <div className ="save_slot" id='2' onClick={() => setWhichSave(2)}><Dice2/></div>
+                <div className ="save_slot" id='1' onClick={() => setWhichSave()}><Dice1/></div>
+                <div className ="save_slot" id='2' onClick={() => setWhichSave()}><Dice2/></div>
                 <div className ="save_slot" id='3' onClick={() => setWhichSave(3)}><Dice3/></div>
             </div>
             <div className='editor_code'>
@@ -141,6 +151,7 @@ function CodeEditor(){
             <div className='open'><Upload icon={<FolderFill/>}/></div>
             <div className='clear' onClick={() => {
                 setCodeText(userData.ProblemInfo.skeleton)
+                console.log(userData.ProblemInfo.skeleton)
                 }}><ArrowClockwise/>
             </div>
             <div className='copy' onClick={() => copy(codeText)}><Files/></div>
