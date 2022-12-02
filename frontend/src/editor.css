@@ -213,8 +213,11 @@
     justify-content: center;
     align-items: center;
 }
+.menu:hover{
+    cursor: pointer;
+}
 .menu_click{
-    background-color: red;
+    background-color: #6bbb51;
     flex: 1;
     display: flex;
     justify-content: center;

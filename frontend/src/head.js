@@ -26,7 +26,7 @@ function Head(){
     const [question, setQuestion] = React.useState('');
 
     const handleChange = (event) => {
-    setQuestion(event.target.value);
+        setQuestion(event.target.value);
     };
 
     // return(
@@ -39,19 +39,16 @@ function Head(){
             <div className='head_title'></div>
             <div className='head_title_txt'>
                 <ThemeProvider theme={theme}>
-                <FormControl sx={{ m: 1, minWidth: 200}} size = "small">
-                    <InputLabel id="question_select">Question</InputLabel>
+                <FormControl sx={{ m: 1, minWidth: 200}} size = "small" >
+                    {/* <InputLabel id="question_select">Question</InputLabel> */}
                     <Select
-                    labelId="question_select"
-                    id="question_select"
                     value={question}
                     onChange={handleChange}
                     autoWidth
-                    label="question"
+                    displayEmpty
                     >
-                    <MenuItem value={10}>Week 1: For Loops</MenuItem>
-                    <MenuItem value={21}>Week 2: Recursion</MenuItem>
-                    <MenuItem value={22}>Week 3: Functions</MenuItem>
+                    <MenuItem value="">Week 1: 피보나치수열</MenuItem>
+                    <MenuItem value={21}>Week 2: 최댓값</MenuItem>
                     </Select>
                 </FormControl>
                 </ThemeProvider>

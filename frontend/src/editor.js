@@ -113,7 +113,6 @@ function CodeEditor(){
         console.log(event.target.value)
     }
 
-    // window.editor.getModel().onDidChangeContent(autoSave);
     const text = <SqlQueryEditor mount={handleEditorDidMount} value={codeText} onDidChangeContent={autoSave} />
 
     const copy = async (text) => {

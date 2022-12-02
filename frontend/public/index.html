@@ -25,9 +25,88 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <style>
+      #for_resize1{
+        position:absolute;
+        left:29.3%;
+        top:48%;
+        width:20px;
+        height:100px;
+        z-index:1;
+      }
+      #for_resize2{
+        position:absolute;
+        right:35%;
+        top:64%;
+        width:100px;
+        height:20px;
+        z-index:1;
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    
+    <script>
+      var isPressed1=false;
+      var isPressed2=false;
+  
+      function mouseMove1(){
+        console.log(isPressed1);
+        resize1();
+      }
+      function mouseDown1(){
+        isPressed1=true;
+      }
+      function mouseUp(){
+            isPressed1=false;
+            isPressed2=false;
+      }
+  
+      function mouseMove2(){
+        resize2();
+      }
+      function mouseDown2(){
+        isPressed2=true;
+      }
+      function resize1(){
+          if(isPressed1){
+            var left_con=document.getElementsByClassName("section_problem")[0];
+            var rightup_con=document.getElementsByClassName("section_editor")[0];
+            // var rightdown_con=document.getElementsByClassName("result_section")[0];
+            var button1=document.getElementById("for_resize1");
+            var button_left=parseInt(event.pageX)-button1.offsetWidth/2;
+            var button2=document.getElementById("for_resize2");
+            var winwidth=parseInt(window.innerWidth);
+  
+            button1.style.left=String(100*(button_left)/winwidth)+'vw';
+            left_con.style.width=String(100*parseInt(event.pageX)/winwidth)+'vw';
+            rightup_con.style.left=String(100*parseInt(event.pageX)/winwidth)+'vw';
+            rightup_con.style.width=String(100 - String(100*parseInt(event.pageX)/winwidth))+'vw';
+            // rightdown_con.style.left=String(100*parseInt(event.pageX)/winwidth)+'vw';
+            var button2_right=(parseInt(window.innerWidth)-parseInt(event.pageX))/2;
+  
+            button2.style.right=String(100*button2_right/winwidth)+'vw';
+  
+          }
+        }
+        function resize2(){
+        if(isPressed2){
+          var rightup_con=document.getElementsByClassName("editor_code")[0];
+          var rightdown_con=document.getElementsByClassName("result_section")[0];
+          var button2=document.getElementById("for_resize2");
+  
+          var button_top=parseInt(event.pageY)-button2.offsetHeight/2;
+          var winheight=parseInt(window.innerHeight);
+          button2.style.top=String(100*button_top/winheight)+'vh';
+          rightup_con.style.height=String(100*parseInt(event.pageY)/winheight - 15)+'vh';
+          rightdown_con.style.top=String(100*parseInt(event.pageY)/winheight - 8)+'vh';
+          // rightdown_con.style.height=String(100*(parseInt(window.innerHeight)-parseInt(event.pageY))/winheight)+'vh';
+        }
+      }
+    </script>
+    <button id="for_resize1" onmousedown="mouseDown1()" onmouseup="mouseUp()" onmousemove="mouseMove1()"></button>
+    <button id="for_resize2" onmousedown="mouseDown2()" onmouseup="mouseUp()" onmousemove="mouseMove2()"></button>
     <div id="root"></div>
     <!--
       This HTML file is a template.
