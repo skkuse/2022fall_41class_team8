@@ -205,9 +205,9 @@ function CodeEditor(){
             </div>
             <div className = "save_row">
                 <div className ="save_header" onClick={() => Save(whichSave)}><SdCard/></div>
-                <div className ="save_slot" id='1' onClick={() => setWhichSave()}><Dice1/></div>
-                <div className ="save_slot" id='2' onClick={() => setWhichSave()}><Dice2/></div>
-                <div className ="save_slot" id='3' onClick={() => setWhichSave(3)}><Dice3/></div>
+                <div className ="save_slot" id='1' onClick={() => saveInSlot(1)}><Dice1/></div>
+                <div className ="save_slot" id='2' onClick={() => saveInSlot(2)}><Dice2/></div>
+                <div className ="save_slot" id='3' onClick={() => saveInSlot(3)}><Dice3/></div>
             </div>
             <div className='editor_code'>
                 {text}

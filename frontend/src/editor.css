@@ -175,6 +175,7 @@
 
 .save_slot:hover{
     cursor: pointer;
+    color: wheat;
 }
 
 .save_header{
