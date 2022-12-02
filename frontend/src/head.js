@@ -7,6 +7,21 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import axios from 'axios';
+import { createTheme,ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+//   status: {
+//     danger: 'white',
+//     // danger: "blue",
+//   },
+  palette: {
+    light: '#757ce8',
+      main: '#3f50b5',
+      dark: '#002884',
+      contrastText: '#fff',
+  },
+});
+
 
 function Head(){
     const [question, setQuestion] = React.useState();
@@ -24,11 +39,17 @@ function Head(){
     setQuestion(event.target.value);
     };
 
+    // return(
+    //     <div className="section_head">
+    //         <div className='head_title'><CaretLeftFill/>week1: 문제 제목<CaretRightFill/></div>
+    //     </div>
+    // )
     return(
         <div className="section_head">
             <div className='head_title'></div>
             <div className='head_title_txt'>
-                <FormControl sx={{ m: 1, minWidth: 200 }} size = "small">
+                <ThemeProvider theme={theme}>
+                <FormControl sx={{ m: 1, minWidth: 200}} size = "small">
                     <InputLabel id="question_select">Question</InputLabel>
                     <Select
                     labelId="question_select"
@@ -43,6 +64,7 @@ function Head(){
                     })}
                     </Select>
                 </FormControl>
+                </ThemeProvider>
             </div>
             <div className='arrow_left'><CaretLeft/></div>
             <div className='arrow_left arrow_show_left'><CaretLeftFill/></div>
