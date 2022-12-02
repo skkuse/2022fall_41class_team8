@@ -107,6 +107,8 @@ function CodeEditor(){
         if (saved_string !== String(slot)){
           if (window.confirm(`${slot} 번에 저장한 코드가 있습니다.\n 덮어쓰시겠습니까?`))
             Save(slot)
+          else
+            return
         }
         else
           Save(slot)

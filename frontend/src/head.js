@@ -1,14 +1,24 @@
 import './head.css'
 import 'bootstrap/dist/css/bootstrap.css';
-import {CaretRightFill,CaretLeftFill,CaretLeft,CaretRight} from 'react-bootstrap-icons'
+import {CaretRightFill,CaretLeftFill,CaretLeft,CaretRight, QuestionSquare} from 'react-bootstrap-icons'
 import * as React from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import axios from 'axios';
 
 function Head(){
-    const [question, setQuestion] = React.useState('');
+    const [question, setQuestion] = React.useState();
+    const [questList, setQuestList]= React.useState({arr:[]});
+
+    React.useEffect(()=>{
+        axios
+          .get('http://localhost:8000/server/')
+          .then((response) => {
+            setQuestList({arr:response.data});
+          })
+        }, []);
 
     const handleChange = (event) => {
     setQuestion(event.target.value);
@@ -23,14 +33,14 @@ function Head(){
                     <Select
                     labelId="question_select"
                     id="question_select"
-                    value={question}
+                    value={question || ''}
                     onChange={handleChange}
                     autoWidth
                     label="question"
                     >
-                    <MenuItem value={10}>Week 1: For Loops</MenuItem>
-                    <MenuItem value={21}>Week 2: Recursion</MenuItem>
-                    <MenuItem value={22}>Week 3: Functions</MenuItem>
+                    {questList.arr.map((quest) =>  {
+                        return <MenuItem value={quest.title} key={quest.id}> {quest.chapter}-{quest.title}</MenuItem>
+                    })}
                     </Select>
                 </FormControl>
             </div>
