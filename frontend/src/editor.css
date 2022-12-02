@@ -3,8 +3,8 @@
 
     position: absolute;
     height: 92vh;
-    width: 50%;
-    left: 50%;
+    width: 70%;
+    left: 30%;
     top: 8vh;
     border-radius: 0px;
 
@@ -14,7 +14,7 @@
 
 .editor_code{
     position: absolute;
-    height: 77vh;
+    height: 50vh;
     width: 100%;
     left: 0%;
     top: 7vh;
@@ -116,6 +116,7 @@
     bottom: 2.89%;
     font-size: 30px;
     color: #FFFFFF;
+    width: 0;
 }
 
 .clear{
@@ -127,6 +128,7 @@
     bottom: 2.89%;
     font-size: 30px;
     color: #FFFFFF;
+    width: 0;
 }
 
 .copy{
@@ -138,6 +140,7 @@
     bottom: 2.89%;
     font-size: 30px;
     color: #FFFFFF;
+    width: 0;
 }
 
 .download{
@@ -149,6 +152,7 @@
     bottom: 2.89%;
     font-size: 30px;
     color: #FFFFFF;
+    width: 0;
 }
 
 .save_row{
@@ -164,8 +168,9 @@
     font-size: 1.7em;
     margin-left: 6%;
     color: white;
-    background-color: #2D3242;
-    border-color: #2D3242;
+    /* background-color: #2D3242;
+    border-color: #2D3242; */
+    /* height: ; */
 }
 
 .save_slot:hover{
@@ -180,6 +185,43 @@
 .save_header:hover{
     cursor: pointer;
     color: wheat;
+}
+.result_section{
+    position: absolute;
+    color: white;
+    top: 62%;
+    width: 100%;
+}
+.result_head{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.result_menu{
+    height: 5vh;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    /* align-items: center; */
+    flex: 1;
+    flex-basis: 14vw;
+}
+.menu{
+    background-color: none;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.menu_click{
+    background-color: red;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contents{
+    text-indent: 30px;
 }
 
 

@@ -6,6 +6,21 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { createTheme,ThemeProvider } from '@mui/material/styles';
+
+const theme = createTheme({
+//   status: {
+//     danger: 'white',
+//     // danger: "blue",
+//   },
+  palette: {
+    light: '#757ce8',
+      main: '#3f50b5',
+      dark: '#002884',
+      contrastText: '#fff',
+  },
+});
+
 
 function Head(){
     const [question, setQuestion] = React.useState('');
@@ -14,9 +29,37 @@ function Head(){
     setQuestion(event.target.value);
     };
 
+    // return(
+    //     <div className="section_head">
+    //         <div className='head_title'><CaretLeftFill/>week1: 문제 제목<CaretRightFill/></div>
+    //     </div>
+    // )
     return(
         <div className="section_head">
-            <div className='head_title'><CaretLeftFill/>week1: 문제 제목<CaretRightFill/></div>
+            <div className='head_title'></div>
+            <div className='head_title_txt'>
+                <ThemeProvider theme={theme}>
+                <FormControl sx={{ m: 1, minWidth: 200}} size = "small">
+                    <InputLabel id="question_select">Question</InputLabel>
+                    <Select
+                    labelId="question_select"
+                    id="question_select"
+                    value={question}
+                    onChange={handleChange}
+                    autoWidth
+                    label="question"
+                    >
+                    <MenuItem value={10}>Week 1: For Loops</MenuItem>
+                    <MenuItem value={21}>Week 2: Recursion</MenuItem>
+                    <MenuItem value={22}>Week 3: Functions</MenuItem>
+                    </Select>
+                </FormControl>
+                </ThemeProvider>
+            </div>
+            <div className='arrow_left'><CaretLeft/></div>
+            <div className='arrow_left arrow_show_left'><CaretLeftFill/></div>
+            <div className='arrow_right'><CaretRight/></div>
+            <div className='arrow_right arrow_show_right'><CaretRightFill/></div>
         </div>
     )
 }
