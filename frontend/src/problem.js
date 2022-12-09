@@ -1,6 +1,7 @@
 import axios from 'axios';
 import './problem.css'
 import React,{useEffect,useState} from 'react';
+import { PcDisplay } from 'react-bootstrap-icons';
 
 
 function valid(){
@@ -54,11 +55,29 @@ function OpenTestCase(props){
 }
 
 function Problem(props){
+    console.log('in p.js first',props.problemID)
     const [userData, setUserData] = useState()
     const [description,setdesc] = useState("문제 설명입니다.")
 
+
+    useEffect(() => {
+        async function first() {
+          var promise = new Promise((resolve) => {
+            axios.get('http://localhost:8000/server/'+props.problemID+'/')
+            .then((response) => {
+                setUserData(response.data);
+                setdesc(response.data.ProblemInfo.contents);
+            })
+          });
+    
+          var temp = await promise;
+          console.log(temp);
+        }
+        first();
+      },[props.problemID])
+
     // async function getAxios(){
-    //     const response = await axios.get('http://localhost:8000/server/1/')
+    //     const response = await axios.get('http://localhost:8000/server/'+props.problemID+'/')
     //     console.log(response)
     //     setUserData(response.data);
     //     setdesc(response.data.ProblemInfo.contents)

@@ -40,14 +40,24 @@ function Result(props){
     )
 }
 
-function CodeEditor(){
+function CodeEditor(props){
+    console.log('in editor first',props.problemID)
     const [codeText,setCodeText] = useState()
     const [whichSave, setWhichSave] = useState(1)
     const userData = useRef()
     const AUTO_SAVE_INTERVAL = 1000
+
+    useEffect(()=>{
+      const interval = setInterval(()=> {
+        Save(0);
+      }, AUTO_SAVE_INTERVAL);
+      
+      return () => clearInterval(interval);
+      }, []);
+
     useEffect(()=>{
       axios
-        .get('http://localhost:8000/server/1/')
+        .get('http://localhost:8000/server/'+props.problemID+'/')
         .then((response) => {
           userData.current = response.data;
           if(response.data.status === "Not solved")
@@ -55,12 +65,7 @@ function CodeEditor(){
           else
             setCodeText(response.data.auto_saved);
         })
-      const interval = setInterval(()=> {
-        Save(0);
-      }, AUTO_SAVE_INTERVAL);
-      
-      return () => clearInterval(interval);
-      }, []);
+      }, [props.problemID]);
 
     
     async function getUser() {
@@ -93,7 +98,7 @@ function CodeEditor(){
           setCodeText(editorRef.current.getValue())
       }
       try {
-        await axios.put('http://localhost:8000/server/1/', userData.current);
+        await axios.put('http://localhost:8000/server/'+props.problemID+'/', userData.current);
         } catch(e){
           console.error(e);
       }
@@ -183,7 +188,7 @@ function CodeEditor(){
       }
 
       const download = useCallback((filename, code) => {
-        let fileName = 'down.txt';
+        let fileName = props.problemID+'.py';
         let output = code;
         const element = document.createElement('a');
         const file = new Blob([output], {
@@ -212,7 +217,6 @@ function CodeEditor(){
             <div className='open'><Upload icon={<FolderFill/>}/></div>
             <div className='clear' onClick={() => {
                 setCodeText(userData.current.ProblemInfo.skeleton)
-                // console.log(userData.ProblemInfo.skeleton)
                 }}><ArrowClockwise/>
             </div>
             <div className='copy' onClick={() => copy(codeText)}><Files/></div>

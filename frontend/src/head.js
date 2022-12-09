@@ -22,11 +22,13 @@ const theme = createTheme({
 });
 
 
-function Head(){
-    const [question, setQuestion] = React.useState('');
+function Head(props){
+    const [question, setQuestion] = React.useState('1');
 
     const handleChange = (event) => {
+        console.log(event.target)
         setQuestion(event.target.value);
+        props.selectFunction(event.target.value)
     };
 
     // return(
@@ -47,8 +49,8 @@ function Head(){
                     autoWidth
                     displayEmpty
                     >
-                    <MenuItem value="">Week 1: 피보나치수열</MenuItem>
-                    <MenuItem value={21}>Week 2: 최댓값</MenuItem>
+                    <MenuItem value="1">Week 1: 피보나치수열</MenuItem>
+                    <MenuItem value="2">Week 2: 최댓값</MenuItem>
                     </Select>
                 </FormControl>
                 </ThemeProvider>

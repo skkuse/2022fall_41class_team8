@@ -50,6 +50,7 @@
 }
 
 .execute{
+    cursor: pointer;
     position: absolute;
     left: 62.29%;
     right: 28.44%;
@@ -70,6 +71,7 @@
 }
 
 .scoring{
+    cursor: pointer;
     position: absolute;
     left: 72.92%;
     right: 17.81%;
@@ -89,6 +91,7 @@
 }
 
 .submit{
+    cursor: pointer;
     position: absolute;
     left: 86.77%;
     right: 3.96%;
