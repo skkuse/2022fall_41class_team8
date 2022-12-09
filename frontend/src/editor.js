@@ -53,7 +53,7 @@ function CodeEditor(props){
       }, AUTO_SAVE_INTERVAL);
       
       return () => clearInterval(interval);
-      }, []);
+      }, [props.problemID]);
 
     useEffect(()=>{
       axios
@@ -107,7 +107,7 @@ function CodeEditor(props){
     async function getScore() {
       Save(0);
       try {
-          const response = await axios.get('http://localhost:8000/server/1/scoring');          
+          const response = await axios.get('http://localhost:8000/server/'+props.problemID+'/scoring');          
           alert(response.data.explanation)
       } catch (e) {
         console.error(e);
