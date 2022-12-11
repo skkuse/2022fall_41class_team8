@@ -175,13 +175,13 @@
 
 .save_slot:hover{
     cursor: pointer;
-    color: wheat;
+    color: rgb(255, 166, 0);
 }
 
 .save_slot_click{
     font-size: 1.7em;
     margin-left: 6%;
-    color: wheat;
+    color: rgb(255, 166, 0);
 }
 
 
@@ -192,7 +192,7 @@
 }
 .save_header:hover{
     cursor: pointer;
-    color: wheat;
+    color: rgb(255, 166, 0);
 }
 .result_section{
     position: absolute;

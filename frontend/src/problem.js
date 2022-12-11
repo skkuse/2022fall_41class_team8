@@ -3,30 +3,34 @@ import './problem.css'
 import React,{useEffect,useState} from 'react';
 import { PcDisplay } from 'react-bootstrap-icons';
 
-
-function valid(){
-    axios.get("http://localhost:8000/server/1/exe_TC",{
-        params:{
-            'input':1,
-        }
-    })
-    .then((response) => {
-        console.log(response)
-    }).catch((err)=>{
-        console.log(err)
-    }).then(()=>{
-        console.log('in last')
-    })
-}
-
 function OpenTestCase(props){
     const lis = []
     console.log(props.data)
     // console.log(props.data.ProblemInfo.testcase1)
     const tc1=props.data.ProblemInfo.testcase1
     const tc2=props.data.ProblemInfo.testcase2
+
+    function valid(input,output){
+        axios.get("http://localhost:8000/server/1/exe_TC",{
+            params:{
+                'code':props.data.auto_saved,
+                'input':input,
+                'output':output
+            }
+        })
+        .then((response) => {
+            console.log(response)
+        }).catch((err)=>{
+            console.log(err)
+        }).then(()=>{
+            console.log('in last')
+        })
+    }
+
     lis.push(<li key='1'>
-        <div className='tc_each_head'>테스트케이스 1<nav><p onClick={valid}>검증</p></nav></div>
+        <div className='tc_each_head'>테스트케이스 1<nav><p onClick={()=>{
+            valid(tc1.split('/')[0],tc1.split('/')[1])
+            }}>검증</p></nav></div>
         <div className='tc_flex'>
             <div>
 
@@ -42,7 +46,9 @@ function OpenTestCase(props){
         </li>
     )
     lis.push(<li key='2'>
-        <div className='tc_each_head'>테스트케이스 2<nav><p onClick={valid}>검증</p></nav></div>
+        <div className='tc_each_head'>테스트케이스 2<nav><p onClick={()=>{
+            valid(tc2.split('/')[0],tc2.split('/')[1])
+            }}>검증</p></nav></div>
         <div className='tc_flex'>
             <div>
 

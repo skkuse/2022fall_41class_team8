@@ -8,6 +8,8 @@ from rest_framework.decorators import api_view
 from .models import user, problem, user_log
 from . import serializers
 from . import code_explanation, contents_recommend, copydetect, efficiency, readable
+
+import os
 # Create your views here.
 
 class ListProblem(generics.ListCreateAPIView):
@@ -71,8 +73,22 @@ def exe_TC(request, ProblemId):
         ret = {}
         if request.GET.get('input',-1)==-1:
             return HttpResponse()
-        print(request.GET.get('input',-1))
-        ret['msg']='hello'
+        req_code = request.GET.get('code',-1)
+        req_input = request.GET.get('input',-1).replace(" ","")
+        req_output = request.GET.get('output',-1).replace(" ","")
+        print('get req',request.GET.get('input',-1))
+        
+        with open('server/dummy_one.py','w') as f:
+            f.write(req_code)
+
+        stream=os.popen(f'python server/exe_one.py 1 {req_input}')
+        output=stream.read()
+        print(output)
+        if output==req_output:
+            ret['same']=1
+        else: ret['same']=0
+
+        os.remove('server/dummy_one.py')
 
         return JsonResponse(ret)
     return HttpResponse()
