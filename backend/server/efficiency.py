@@ -10,7 +10,8 @@ def count_line(filename):
 
 def halstead(filename):
   #print(output_json)
-  query="python3 -m multimetric "+filename
+  query="multimetric.exe "+filename
+#   query="python3 -m multimetric "+filename
   #stream=os.popen("multimetric answer.py")
   stream=os.popen(query)
   output=stream.read()
@@ -28,7 +29,9 @@ def halstead(filename):
 def control_flow(filename):
   #I think cyclematic_complexity is metric for data flow complexity
   #smaller is good
-  query="python3 -m multimetric "+filename
+#   query="python3 -m multimetric "+filename
+#   query="python3 -m multimetric "+filename
+  query="multimetric.exe "+filename
   #stream=os.popen("multimetric answer.py")
   stream=os.popen(query)
   output=stream.read()

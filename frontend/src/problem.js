@@ -5,7 +5,18 @@ import { PcDisplay } from 'react-bootstrap-icons';
 
 
 function valid(){
-
+    axios.get("http://localhost:8000/server/1/exe_TC",{
+        params:{
+            'input':1,
+        }
+    })
+    .then((response) => {
+        console.log(response)
+    }).catch((err)=>{
+        console.log(err)
+    }).then(()=>{
+        console.log('in last')
+    })
 }
 
 function OpenTestCase(props){

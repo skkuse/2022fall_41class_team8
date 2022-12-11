@@ -129,13 +129,13 @@ function CodeEditor(props){
         }
       };
     
-      const resetCode = () => {
-        setCodeText((prev) => "")
-        alert(editorRef.current.getValue())
-        alert(codeText)
-        setCodeText(() => userData.current.ProblemInfo.skeleton)
-        alert(codeText)
-      }
+      // const resetCode = () => {
+      //   setCodeText((prev) => "")
+      //   alert(editorRef.current.getValue())
+      //   alert(codeText)
+      //   setCodeText(() => userData.current.ProblemInfo.skeleton)
+      //   alert(codeText)
+      // }
     
     
       const saveInSlot = async (slot) => {
@@ -198,7 +198,7 @@ function CodeEditor(props){
         element.download = fileName;
         document.body.appendChild(element); // FireFox
         element.click();
-      },[])
+      },[props.problemID])
 
     return(
         <div className="section_editor">
