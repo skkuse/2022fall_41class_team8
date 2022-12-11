@@ -217,7 +217,7 @@ function CodeEditor(props){
         }
         document.querySelector('#s'+slot.toString()).className='save_slot_click'
         if(slot===1){
-          setCodeText(userData.current.save1)
+          // setCodeText(userData.current.save1)
         }
         if(slot===2){
           setCodeText(userData.current.save2)
