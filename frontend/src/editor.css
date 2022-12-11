@@ -171,14 +171,19 @@
     font-size: 1.7em;
     margin-left: 6%;
     color: white;
-    /* background-color: #2D3242;
-    border-color: #2D3242; */
-    /* height: ; */
 }
 
 .save_slot:hover{
     cursor: pointer;
+    color: wheat;
 }
+
+.save_slot_click{
+    font-size: 1.7em;
+    margin-left: 6%;
+    color: wheat;
+}
+
 
 .save_header{
     color:white;

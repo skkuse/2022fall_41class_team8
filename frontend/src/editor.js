@@ -65,6 +65,7 @@ function CodeEditor(props){
           else
             setCodeText(response.data.auto_saved);
         })
+      loadSave(1,1)
       }, [props.problemID]);
 
     
@@ -87,20 +88,25 @@ function CodeEditor(props){
     } 
 
     async function Save(slot){
-      if (slot === 1)
-        userData.current = {...userData.current, save1: editorRef.current.getValue()}
-      else if (slot === 2)
-        userData.current = {...userData.current, save2: editorRef.current.getValue()}
-      else if (slot === 3)
-        userData.current = {...userData.current, save3: editorRef.current.getValue()}
-      else{
+      if(slot===0){
           userData.current = {...userData.current, auto_saved: editorRef.current.getValue()}
           setCodeText(editorRef.current.getValue())
       }
+      else{
+        if (!window.confirm(`${slot} 번에 저장하시겠습니까?`)){
+          return;
+        }
+        if (slot === 1)
+        userData.current = {...userData.current, save1: editorRef.current.getValue()}
+        else if (slot === 2)
+        userData.current = {...userData.current, save2: editorRef.current.getValue()}
+        else if (slot === 3)
+        userData.current = {...userData.current, save3: editorRef.current.getValue()}
+      }
       try {
         await axios.put('http://localhost:8000/server/'+props.problemID+'/', userData.current);
-        } catch(e){
-          console.error(e);
+      } catch(e){
+        console.error(e);
       }
     }
 
@@ -138,23 +144,23 @@ function CodeEditor(props){
       // }
     
     
-      const saveInSlot = async (slot) => {
-        var saved_string = "";
-        if (slot === 1){
-          saved_string = userData.current.save1;
-        } else if (slot === 2){
-          saved_string = userData.current.save2;
-        } else if (slot === 3){
-          saved_string = userData.current.save3;
-        }
-        if (saved_string !== String(slot)){
-          if (window.confirm(`${slot} 번에 저장한 코드가 있습니다.\n 덮어쓰시겠습니까?`))
-            Save(slot)
-        }
-        else
-          Save(slot)
-        alert("저장 성공!")
-      }
+      // const saveInSlot = async (slot) => {
+      //   var saved_string = "";
+      //   if (slot === 1){
+      //     saved_string = userData.current.save1;
+      //   } else if (slot === 2){
+      //     saved_string = userData.current.save2;
+      //   } else if (slot === 3){
+      //     saved_string = userData.current.save3;
+      //   }
+      //   if (saved_string !== String(slot)){
+      //     if (window.confirm(`${slot} 번에 저장하시겠습니까?`))
+      //       Save(slot)
+      //   }
+      //   else
+      //     Save(slot)
+      //   alert("저장 성공!")
+      // }
 
 
     function processFile(file) {
@@ -200,6 +206,26 @@ function CodeEditor(props){
         element.click();
       },[props.problemID])
 
+      const loadSave = (slot,skip) => {
+
+        if (skip===0 && !window.confirm(`${slot}번을 불러오시겠습니까?`)){
+          return;
+        }
+        setWhichSave(slot)
+        for(let i=1;i<=3;i++){
+          document.querySelector('#s'+i.toString()).className='save_slot'
+        }
+        document.querySelector('#s'+slot.toString()).className='save_slot_click'
+        if(slot===1){
+          setCodeText(userData.current.save1)
+        }
+        if(slot===2){
+          setCodeText(userData.current.save2)
+        }
+        if(slot===3){
+          setCodeText(userData.current.save3)
+        }
+      }
     return(
         <div className="section_editor">
             <div className='editor_head'>
@@ -207,9 +233,9 @@ function CodeEditor(props){
             </div>
             <div className = "save_row">
                 <div className ="save_header" onClick={() => Save(whichSave)}><SdCard/></div>
-                <div className ="save_slot" id='1' onClick={() => setWhichSave()}><Dice1/></div>
-                <div className ="save_slot" id='2' onClick={() => setWhichSave()}><Dice2/></div>
-                <div className ="save_slot" id='3' onClick={() => setWhichSave(3)}><Dice3/></div>
+                <div className ="save_slot" id='s1' onClick={() => loadSave(1,0)}><Dice1/></div>
+                <div className ="save_slot" id='s2' onClick={() => loadSave(2,0)}><Dice2/></div>
+                <div className ="save_slot" id='s3' onClick={() => loadSave(3,0)}><Dice3/></div>
             </div>
             <div className='editor_code'>
                 {text}
