@@ -23,18 +23,20 @@ function OpenTestCase(props){
     const lis = []
     console.log(props.data)
     // console.log(props.data.ProblemInfo.testcase1)
+    const tc1=props.data.ProblemInfo.testcase1
+    const tc2=props.data.ProblemInfo.testcase2
     lis.push(<li key='1'>
         <div className='tc_each_head'>테스트케이스 1<nav><p onClick={valid}>검증</p></nav></div>
         <div className='tc_flex'>
             <div>
 
                 <div>Input</div>
-                <div>1</div>
-                {/* <div>{props.data.ProblemInfo.testcase1}</div> */}
+                {/* <div>1</div> */}
+                <div>{tc1.split('/')[0]}</div>
             </div>
             <div>
                 <div>Output</div>
-                <idv>1</idv>
+                <idv>{tc1.split('/')[1]}</idv>
             </div>
         </div>
         </li>
@@ -45,12 +47,12 @@ function OpenTestCase(props){
             <div>
 
                 <div>Input</div>
-                <div>3</div>
-                {/* <div>{props.data.ProblemInfo.testcase2}</div> */}
+                {/* <div>3</div> */}
+                <div>{tc2.split('/')[0]}</div>
             </div>
             <div>
                 <div>Output</div>
-                <idv>2</idv>
+                <idv>{tc2.split('/')[1]}</idv>
             </div>
         </div>
         </li>
