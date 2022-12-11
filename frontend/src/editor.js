@@ -114,7 +114,7 @@ function CodeEditor(props){
       Save(0);
       try {
           const response = await axios.get('http://localhost:8000/server/'+props.problemID+'/scoring');          
-          alert(response.data.explanation)
+          console.log(response.data)
       } catch (e) {
         console.error(e);
       }
