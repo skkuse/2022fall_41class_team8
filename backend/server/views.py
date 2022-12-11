@@ -57,7 +57,7 @@ def executing(request, ProblemId):
     data = {}
     file_name = f'user{ProblemId}.py'
     with open(file_name, 'w') as f:
-        f.write(user_log.objects.get(ProblemInfo_id=ProblemId).auto_saved)
+        f.write(user_log.objects.get(ProblemInfo_id=ProblemId).auto_saved.replace("\n",""))
 
        
     data['explanation'] = code_explanation.get_explanation(file_name)
@@ -79,11 +79,11 @@ def exe_TC(request, ProblemId):
         print('get req',request.GET.get('input',-1))
         
         with open('server/dummy_one.py','w') as f:
-            f.write(req_code)
+            f.write(req_code.replace("\n",""))
 
         stream=os.popen(f'python server/exe_one.py 1 {req_input}')
-        output=stream.read()
-        print(output)
+        output=stream.read().replace(" ","")[:-1]
+        print(output,req_output)
         if output==req_output:
             ret['same']=1
         else: ret['same']=0
