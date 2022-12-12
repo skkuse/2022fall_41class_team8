@@ -24,5 +24,5 @@ def get_explanation(file_name):
     presence_penalty=0.0,
     stop=["\"\"\""]
   )
-  print(response["choices"][0].text)
+  print('explanation',response,response["choices"][0].text)
   return response["choices"][0].text

@@ -10,18 +10,102 @@ const SqlQueryEditor = (props) => {
 	return <Editor height="100%" language='python' onMount={props.mount} value={props.value}/>
 }
 
+function executeResult(){
+    return(
+        <div className='result_section'>
+            <div>제출결과</div>
+        </div>
+    )
+}
+
 function Result(props){
+
     const heads = ["기능 점수","효율 점수","가독성 점수","코드 설명","관련 자료"]
     const head_DOMs = []
     const [click,setclick] = useState([1,0,0,0,0])
     const [content,setContent] = useState(heads[0])
+    const contentName = ['','efficiency','readability','explanation','recommendation']
+
+    const returnContent = (i) => {
+        if(i===0){
+
+        }
+        if(i===1){
+            const heads=['control_flow','count of lines','data_flow','halstead']
+            let scoreList=[]
+            heads.forEach(head => {
+                scoreList.push(
+                    <li>
+                        {head} : {props.contents[contentName[i]][head]}
+                    </li>
+                )
+            })
+            return(
+                <ul className='m-3'>
+                    {scoreList}
+                </ul>
+            )
+        }
+        if(i===2){
+            const heads = ['mypy','pycodestyle','pyflakes','pylint','radon']
+            let scoreList=[]
+            heads.forEach(head => {
+                scoreList.push(
+                    <li>
+                        {head} : {20 - props.contents[contentName[i]][head].length}
+                    </li>
+                )
+            })
+            return(
+                <ul className='m-3'>
+                    {scoreList}
+                </ul>
+            )
+        }
+        if(i===3){
+            return(
+                <div className='overflow-auto m-3'>
+                    {props.contents[contentName[i]]}
+                </div>
+            )
+        }
+        if(i===4){
+            let lecList=[]
+            props.contents[contentName[i]]['concept'].forEach(x=>{
+                lecList.push(
+                    <div>{x.title} <a href={x.link} target='_blank'>link</a></div>
+                )
+            })
+            let videoList=[]
+            props.contents[contentName[i]]['video'].forEach(x=>{
+                videoList.push(
+                    <div>{x.title} <a href={x.url} target='_blank'>link</a></div>
+                )
+            })
+            // videoList.splice()
+            return(
+                <div className='overflow-auto'>
+                    <div>
+                        강의
+                        {lecList}
+                    </div>
+                    <div>
+                        영상
+                        {videoList}
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    console.log(props)
     for(let i=0;i<5;i++){
         head_DOMs.push(
             <div className={click[i]?"menu_click":"menu"} id={i} onClick={event=>{
                 const c = [0,0,0,0,0]
                 c[event.target.id]=1
                 setclick(c)
-                setContent(heads[i])
+                setContent(returnContent(i))
             }}>
                 {heads[i]}
             </div>
@@ -41,9 +125,9 @@ function Result(props){
 }
 
 function CodeEditor(props){
-    console.log('in editor first',props.problemID)
     const [codeText,setCodeText] = useState()
     const [whichSave, setWhichSave] = useState(1)
+    const [content,setContent] = useState({})
     const userData = useRef()
     const AUTO_SAVE_INTERVAL = 1000
 
@@ -111,10 +195,10 @@ function CodeEditor(props){
     }
 
     async function getScore() {
-      Save(0);
       try {
           const response = await axios.get('http://localhost:8000/server/'+props.problemID+'/scoring');          
           console.log(response.data)
+          setContent(response.data)
       } catch (e) {
         console.error(e);
       }
@@ -252,7 +336,7 @@ function CodeEditor(props){
             <div className='execute' onClick={showValue}>실행</div>
             <div className='scoring' onClick={getUser}>채점</div>
             <div className='submit' onClick={getScore}>제출</div>
-            <Result contents={"hello"}/>
+            <Result contents={content}/>
         </div>
   
     )

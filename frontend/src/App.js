@@ -7,7 +7,6 @@ import { useState } from 'react';
 function App() {
 
   const [PID,setPID] = useState('1');
-  const [user,setUser] = useState(0);
   const selectProblem = (ID) => {
     setPID(ID)
     console.log('print ID',ID)

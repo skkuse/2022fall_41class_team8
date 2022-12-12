@@ -120,7 +120,7 @@ function Problem(props){
             <div className='problem_head'>문제 설명</div>
             <div className='problem_desc overflow-auto h-50 ms-3 me-3'>
                 <div>{description}</div>
-                <div className='mb-3 mt-3 fs-4 fw-4'>제약사항</div>
+                <div className='mb-3 mt-3 fs-4 fw-bold'>제약사항</div>
                 <div >{restrict}</div>
             </div>
             <OpenTestCase data={userData} problemID={props.problemID}/>
