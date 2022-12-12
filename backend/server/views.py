@@ -38,7 +38,7 @@ def scoring(request, ProblemId):
     data = {}
     file_name = f'user{ProblemId}.py'
     with open(file_name, 'w') as f:
-        f.write(user_log.objects.get(ProblemInfo_id=ProblemId).auto_saved)
+        f.write(user_log.objects.get(ProblemInfo_id=ProblemId).auto_saved.replace("\n",""))
     data['plagiarism']=copydetect.copyrate(file_name)
     data['efficiency']={}
     data['efficiency']['count of lines']=efficiency.count_line(file_name)
@@ -50,6 +50,7 @@ def scoring(request, ProblemId):
     data['explanation'] = code_explanation.get_explanation(file_name)
     search_query = 'python' + problem.objects.get(id=ProblemId).title
     data['recommendation'] = contents_recommend.GetRecommendation(search_query)
+    os.remove(file_name)
     print(data)
     return JsonResponse(data)
 
@@ -84,6 +85,8 @@ def exe_TC(request, ProblemId):
         stream=os.popen(f'python server/exe_one.py 1 {req_input}')
         output=stream.read().replace(" ","")[:-1]
         print(output,req_output)
+        ret['output']=output
+        ret['num']=request.GET.get('num',-1)
         if output==req_output:
             ret['same']=1
         else: ret['same']=0

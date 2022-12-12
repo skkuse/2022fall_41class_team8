@@ -1,5 +1,5 @@
 import './editor.css'
-import Editor from '@monaco-editor/react';
+import Editor, {DiffEditor} from '@monaco-editor/react';
 import React,{useEffect, useRef,useState,useCallback} from 'react';
 import {Download,FolderFill,Files,ArrowClockwise,Dice1,Dice2,Dice3,SdCard} from 'react-bootstrap-icons'
 import axios from 'axios';
@@ -10,15 +10,35 @@ const SqlQueryEditor = (props) => {
 	return <Editor height="100%" language='python' onMount={props.mount} value={props.value}/>
 }
 
-function executeResult(){
-    return(
-        <div className='result_section'>
-            <div>제출결과</div>
-        </div>
-    )
+const ShowDiffEditor = (props) => {
+  return <DiffEditor height="100%" language='python' onMount={props.mount} value={props.value}></DiffEditor>
 }
 
-function Result(props){
+
+
+
+function ExecuteResult(props){
+  return(
+    <div className='result_section'>
+            <div>제출결과</div>
+            <div>{props.output}</div>
+        </div>
+    )
+  }
+  function ShowResult(props){
+    if(props.isSubmit){
+      return(
+        <Result contents={props.contents}/>
+      )
+    }
+    else{
+      return(
+        <ExecuteResult output={props.output}/>
+      )
+    }
+  }
+  
+  function Result(props){
 
     const heads = ["기능 점수","효율 점수","가독성 점수","코드 설명","관련 자료"]
     const head_DOMs = []
@@ -86,11 +106,11 @@ function Result(props){
             return(
                 <div className='overflow-auto'>
                     <div>
-                        강의
+                        <div className='fs-4 fw-bold'>강의</div>
                         {lecList}
                     </div>
-                    <div>
-                        영상
+                    <div className='overflow-auto'>
+                    <div className='fs-4 fw-bold'>영상</div>
                         {videoList}
                     </div>
                 </div>
@@ -113,7 +133,6 @@ function Result(props){
     }
     return(
         <div className='result_section'>
-            {/* <div className='result_head'>실행결과</div> */}
             <div className='result_menu'>
                 {head_DOMs}
             </div>
@@ -128,6 +147,9 @@ function CodeEditor(props){
     const [codeText,setCodeText] = useState()
     const [whichSave, setWhichSave] = useState(1)
     const [content,setContent] = useState({})
+    const [isSubmit,setIsSubmit] = useState(0)
+    const [output,setOutput] = useState('')
+    const [tc1,setTc1] = useState('1/1')
     const userData = useRef()
     const AUTO_SAVE_INTERVAL = 1000
 
@@ -150,10 +172,12 @@ function CodeEditor(props){
             setCodeText(response.data.auto_saved);
         })
       loadSave(1,1)
+      setIsSubmit(0)
       }, [props.problemID]);
 
     
     async function getUser() {
+      setIsSubmit(0)
         try {
             setCodeText(userData.current.auto_saved)
         } catch (e) {
@@ -167,7 +191,7 @@ function CodeEditor(props){
       }
     
     function showValue() {
-        alert(editorRef.current.getValue());
+        setIsSubmit(0)
         alert(userData.current.auto_saved);
     } 
 
@@ -199,6 +223,7 @@ function CodeEditor(props){
           const response = await axios.get('http://localhost:8000/server/'+props.problemID+'/scoring');          
           console.log(response.data)
           setContent(response.data)
+          setIsSubmit(1)
       } catch (e) {
         console.error(e);
       }
@@ -218,34 +243,6 @@ function CodeEditor(props){
           alert('복사 실패!');
         }
       };
-    
-      // const resetCode = () => {
-      //   setCodeText((prev) => "")
-      //   alert(editorRef.current.getValue())
-      //   alert(codeText)
-      //   setCodeText(() => userData.current.ProblemInfo.skeleton)
-      //   alert(codeText)
-      // }
-    
-    
-      // const saveInSlot = async (slot) => {
-      //   var saved_string = "";
-      //   if (slot === 1){
-      //     saved_string = userData.current.save1;
-      //   } else if (slot === 2){
-      //     saved_string = userData.current.save2;
-      //   } else if (slot === 3){
-      //     saved_string = userData.current.save3;
-      //   }
-      //   if (saved_string !== String(slot)){
-      //     if (window.confirm(`${slot} 번에 저장하시겠습니까?`))
-      //       Save(slot)
-      //   }
-      //   else
-      //     Save(slot)
-      //   alert("저장 성공!")
-      // }
-
 
     function processFile(file) {
         var reader = new FileReader();
@@ -310,6 +307,35 @@ function CodeEditor(props){
           setCodeText(userData.current.save3)
         }
       }
+
+      function valid(){
+        axios.get("http://localhost:8000/server/"+props.problemID+"/")
+        .then((response)=>{
+            console.log(response)
+            setTc1(response.data.ProblemInfo.testcase1)
+            })
+      
+        axios.get("http://localhost:8000/server/"+props.problemID+"/")
+        .then((response)=>{
+            console.log(response)
+            axios.get("http://localhost:8000/server/1/exe_TC",{
+                params:{
+                    'code':response.data.auto_saved,
+                    'input':tc1.split('/')[0],
+                    'output':tc1.split('/')[1],
+                    'num':1
+                }
+            })
+            .then((response) => {
+                console.log('1',response)
+                // alert(response.output)
+                setOutput(response.data.output)
+            }).catch((err)=>{
+                console.log(err)
+            })
+        })
+        
+      }
     return(
         <div className="section_editor">
             <div className='editor_head'>
@@ -331,12 +357,12 @@ function CodeEditor(props){
             </div>
             <div className='copy' onClick={() => copy(codeText)}><Files/></div>
                 <div className='download' onClick={()=>{
-                    download('down_1.txt',codeText)
+                    download('',codeText)
                 }}><Download/></div>
-            <div className='execute' onClick={showValue}>실행</div>
+            <div className='execute' onClick={valid}>실행</div>
             <div className='scoring' onClick={getUser}>채점</div>
             <div className='submit' onClick={getScore}>제출</div>
-            <Result contents={content}/>
+            <ShowResult contents={content} isSubmit={isSubmit} output={output}/>
         </div>
   
     )
